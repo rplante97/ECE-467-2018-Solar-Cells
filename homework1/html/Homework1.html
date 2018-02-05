@@ -1,0 +1,193 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Homework1</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-02-05"><meta name="DC.source" content="Homework1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Question 1 Calculate total solar insolation in units of kWh/m^2 and peak sun hours (psh)</a></li><li><a href="#2">Question 2 Percentage of solar energy absorbed by solar cell (a) in orono (b) in space</a></li><li><a href="#3">Question 3 Different solar collector designs preformance in Caribou, ME and Flagstaff, AZ</a></li></ul></div><h2 id="1">Question 1 Calculate total solar insolation in units of kWh/m^2 and peak sun hours (psh)</h2><pre class="codeinput">data = xlsread(<span class="string">'Homework1Q1.xls'</span>); <span class="comment">%Col 1: Time, Col 2: Irradiance in W/m^2</span>
+time = (0:.25:23.75); <span class="comment">%Fix for time</span>
+data(:, 1) = time;
+
+<span class="comment">%Calculate total solar irradiation (kWh/m^2):</span>
+data2 = reshape(data(:,2), 4, [])'; <span class="comment">%Reshape Matrix so each row contains 1 hours worth of values</span>
+wattHours = sum(data2, 2)/4; <span class="comment">%sum each column and divide by 4 to get avg W/m^2 each hour</span>
+totalInsolationKWH = sum(wattHours)/1000 <span class="comment">%sum all the rows to get total kWh/m^2, divide by 1000 to get total kWh/m^2</span>
+
+<span class="comment">%Calculate total solar irradiation (psh): (trapz() does all of the above work for us)</span>
+totalInsolationPSH = trapz(data(:,1), data(:,2))/1000 <span class="comment">%psh are exactly equal to kWh/m^2 units</span>
+</pre><pre class="codeoutput">
+totalInsolationKWH =
+
+    5.5577
+
+
+totalInsolationPSH =
+
+    5.5577
+
+</pre><h2 id="2">Question 2 Percentage of solar energy absorbed by solar cell (a) in orono (b) in space</h2><pre class="codeinput"><span class="comment">%Col 1: Wvlgth nm</span>
+<span class="comment">%Col 2: Etr W*m-2*nm-1</span>
+<span class="comment">%Col 3: Global tilt  W*m-2*nm-1</span>
+<span class="comment">%Col 4: Direct+circumsolar W*m-2*nm-1</span>
+data = xlsread(<span class="string">'ASTMG173.xls'</span>, <span class="string">'SMARTS2'</span>);
+<span class="comment">%Earth (global tilt column)</span>
+totalSolarEnergyEarth = trapz(data(:,1), data(:,3)); <span class="comment">%Total energy of entire solar spectrum in global tilt column</span>
+data2 = data(data(:,1) &lt; 1100, :); <span class="comment">%Contains only the values between 280nm and 1100nm</span>
+energyBelow1100Earth = trapz(data2(:,1), data2(:,3)); <span class="comment">%Energy between 280nm and 1100nm in global tilt column</span>
+percentEnergyOrono = (energyBelow1100Earth/totalSolarEnergyEarth)*100
+
+<span class="comment">%Space (etr column)</span>
+totalSolarEnergySpace = trapz(data(:,1), data(:,2));
+energyBelow1100Space = trapz(data2(:,1), data2(:,2));
+percentEnergySpace = (energyBelow1100Space/totalSolarEnergySpace)*100
+</pre><pre class="codeoutput">
+percentEnergyOrono =
+
+   80.3765
+
+
+percentEnergySpace =
+
+   74.8952
+
+</pre><h2 id="3">Question 3 Different solar collector designs preformance in Caribou, ME and Flagstaff, AZ</h2><pre class="codeinput"><span class="comment">%Maine</span>
+Maine0TiltFixedAnnualAvg = 3.6;
+MaineLatTiltFixedAnnualAvg = 4.2;
+Maine2AxisTrackingAnnualAvg = 5.6;
+MaineLatitudeTiltPercentImprovement = ((MaineLatTiltFixedAnnualAvg/Maine0TiltFixedAnnualAvg)-1)*100
+Maine2AxisTrackPercentImprovementOverTilt = ((Maine2AxisTrackingAnnualAvg/MaineLatTiltFixedAnnualAvg)-1)*100
+<span class="comment">%Arizona</span>
+Arizona0TiltFixedAnnualAvg = 5.1;
+ArizonaLatTiltFixedAnnualAvg = 6.0;
+Arizona2AxisTrackingAnnualAvg = 8.4;
+ArizonaLatitudeTiltPercentImprovement = ((ArizonaLatTiltFixedAnnualAvg/Arizona0TiltFixedAnnualAvg)-1)*100
+Arizona2AxisTrackPercentImprovementOverTilt = ((Arizona2AxisTrackingAnnualAvg/ArizonaLatTiltFixedAnnualAvg)-1)*100
+</pre><pre class="codeoutput">
+MaineLatitudeTiltPercentImprovement =
+
+   16.6667
+
+
+Maine2AxisTrackPercentImprovementOverTilt =
+
+   33.3333
+
+
+ArizonaLatitudeTiltPercentImprovement =
+
+   17.6471
+
+
+Arizona2AxisTrackPercentImprovementOverTilt =
+
+   40.0000
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Question 1 Calculate total solar insolation in units of kWh/m^2 and peak sun hours (psh)
+data = xlsread('Homework1Q1.xls'); %Col 1: Time, Col 2: Irradiance in W/m^2
+time = (0:.25:23.75); %Fix for time
+data(:, 1) = time;
+
+%Calculate total solar irradiation (kWh/m^2):
+data2 = reshape(data(:,2), 4, [])'; %Reshape Matrix so each row contains 1 hours worth of values
+wattHours = sum(data2, 2)/4; %sum each column and divide by 4 to get avg W/m^2 each hour
+totalInsolationKWH = sum(wattHours)/1000 %sum all the rows to get total kWh/m^2, divide by 1000 to get total kWh/m^2
+
+%Calculate total solar irradiation (psh): (trapz() does all of the above work for us)
+totalInsolationPSH = trapz(data(:,1), data(:,2))/1000 %psh are exactly equal to kWh/m^2 units
+
+%% Question 2 Percentage of solar energy absorbed by solar cell (a) in orono (b) in space
+%Col 1: Wvlgth nm
+%Col 2: Etr W*m-2*nm-1
+%Col 3: Global tilt  W*m-2*nm-1
+%Col 4: Direct+circumsolar W*m-2*nm-1
+data = xlsread('ASTMG173.xls', 'SMARTS2'); 
+%Earth (global tilt column)
+totalSolarEnergyEarth = trapz(data(:,1), data(:,3)); %Total energy of entire solar spectrum in global tilt column
+data2 = data(data(:,1) < 1100, :); %Contains only the values between 280nm and 1100nm
+energyBelow1100Earth = trapz(data2(:,1), data2(:,3)); %Energy between 280nm and 1100nm in global tilt column
+percentEnergyOrono = (energyBelow1100Earth/totalSolarEnergyEarth)*100
+
+%Space (etr column)
+totalSolarEnergySpace = trapz(data(:,1), data(:,2));
+energyBelow1100Space = trapz(data2(:,1), data2(:,2));
+percentEnergySpace = (energyBelow1100Space/totalSolarEnergySpace)*100
+
+%% Question 3 Different solar collector designs preformance in Caribou, ME and Flagstaff, AZ
+%Maine
+Maine0TiltFixedAnnualAvg = 3.6;
+MaineLatTiltFixedAnnualAvg = 4.2;
+Maine2AxisTrackingAnnualAvg = 5.6;
+MaineLatitudeTiltPercentImprovement = ((MaineLatTiltFixedAnnualAvg/Maine0TiltFixedAnnualAvg)-1)*100
+Maine2AxisTrackPercentImprovementOverTilt = ((Maine2AxisTrackingAnnualAvg/MaineLatTiltFixedAnnualAvg)-1)*100
+%Arizona
+Arizona0TiltFixedAnnualAvg = 5.1;
+ArizonaLatTiltFixedAnnualAvg = 6.0;
+Arizona2AxisTrackingAnnualAvg = 8.4;
+ArizonaLatitudeTiltPercentImprovement = ((ArizonaLatTiltFixedAnnualAvg/Arizona0TiltFixedAnnualAvg)-1)*100
+Arizona2AxisTrackPercentImprovementOverTilt = ((Arizona2AxisTrackingAnnualAvg/ArizonaLatTiltFixedAnnualAvg)-1)*100
+##### SOURCE END #####
+--></body></html>
